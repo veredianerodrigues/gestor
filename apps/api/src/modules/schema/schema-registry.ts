@@ -3,6 +3,7 @@ import { ContentTypeDefinition } from '@cms/shared/interfaces';
 import { postSchema } from '../../config/schemas/post.schema';
 import { authorSchema } from '../../config/schemas/author.schema';
 import { pageSchema } from '../../config/schemas/page.schema';
+import { portfolioSchema } from '../../config/schemas/portfolio.schema';
 
 @Injectable()
 export class SchemaRegistry implements OnModuleInit {
@@ -13,6 +14,7 @@ export class SchemaRegistry implements OnModuleInit {
     this.registerSchema(postSchema);
     this.registerSchema(authorSchema);
     this.registerSchema(pageSchema);
+    this.registerSchema(portfolioSchema);
     this.logger.log(
       `Registered ${this.schemas.size} schemas: ${[...this.schemas.keys()].join(', ')}`
     );

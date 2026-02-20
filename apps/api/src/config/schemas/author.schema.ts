@@ -5,6 +5,7 @@ export const authorSchema: ContentTypeDefinition = {
   title: 'Autor',
   icon: 'person',
   description: 'Authors of content',
+  defaultVisibility: 'PUBLIC',
   fields: [
     {
       name: 'name',

@@ -15,7 +15,9 @@ export type FieldType =
   | 'select'
   | 'color'
   | 'url'
-  | 'email';
+  | 'email'
+  | 'video'
+  | 'gallery';
 
 export interface FieldDefinition {
   name: string;

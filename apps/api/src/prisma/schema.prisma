@@ -26,25 +26,33 @@ enum Role {
 }
 
 model Content {
-  id        String        @id @default(uuid())
-  type      String
-  data      Json
-  status    ContentStatus @default(DRAFT)
-  version   Int           @default(1)
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  createdBy String
-  user      User          @relation(fields: [createdBy], references: [id])
+  id         String            @id @default(uuid())
+  type       String
+  data       Json
+  status     ContentStatus     @default(DRAFT)
+  visibility ContentVisibility @default(PUBLIC)
+  version    Int               @default(1)
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  createdBy  String
+  user       User              @relation(fields: [createdBy], references: [id])
 
   @@index([type])
   @@index([status])
   @@index([type, status])
+  @@index([visibility])
+  @@index([type, status, visibility])
 }
 
 enum ContentStatus {
   DRAFT
   PUBLISHED
   ARCHIVED
+}
+
+enum ContentVisibility {
+  PUBLIC
+  RESTRICTED
 }
 
 model Media {

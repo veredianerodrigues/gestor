@@ -5,6 +5,7 @@ export const pageSchema: ContentTypeDefinition = {
   title: 'Página',
   icon: 'description',
   description: 'Static pages',
+  defaultVisibility: 'PUBLIC',
   fields: [
     {
       name: 'title',

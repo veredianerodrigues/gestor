@@ -154,6 +154,47 @@ export class ContentValidator {
           });
         }
         break;
+
+      case 'video':
+        if (typeof value !== 'string' && typeof value !== 'object') {
+          errors.push({
+            field: path,
+            message: `${field.title} must be a video reference (URL or object)`,
+          });
+        } else if (typeof value === 'object' && value !== null) {
+          const videoObj = value as Record<string, unknown>;
+          if (videoObj.url && typeof videoObj.url !== 'string') {
+            errors.push({
+              field: `${path}.url`,
+              message: `${field.title} URL must be a string`,
+            });
+          }
+        }
+        break;
+
+      case 'gallery':
+        if (!Array.isArray(value)) {
+          errors.push({
+            field: path,
+            message: `${field.title} must be an array of images`,
+          });
+        } else {
+          value.forEach((item: unknown, index: number) => {
+            if (typeof item !== 'string' && typeof item !== 'object') {
+              errors.push({
+                field: `${path}[${index}]`,
+                message: `${field.title}[${index}] must be an image reference`,
+              });
+            }
+          });
+          if (field.validation?.max && value.length > field.validation.max) {
+            errors.push({
+              field: path,
+              message: `${field.title} must have at most ${field.validation.max} images`,
+            });
+          }
+        }
+        break;
     }
   }
 

@@ -18,4 +18,6 @@ export const FIELD_TYPES: { value: FieldType; label: string }[] = [
   { value: 'color', label: 'Color' },
   { value: 'url', label: 'URL' },
   { value: 'email', label: 'Email' },
+  { value: 'video', label: 'Video' },
+  { value: 'gallery', label: 'Gallery' },
 ];

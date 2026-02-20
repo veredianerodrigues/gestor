@@ -25,6 +25,7 @@ export class ContentController {
     @Query('page') page = '1',
     @Query('perPage') perPage = '20',
     @Query('status') status?: string,
+    @Query('visibility') visibility?: string,
     @Query('search') search?: string,
     @Query('sort') sort = 'createdAt',
     @Query('order') order = 'desc'
@@ -33,6 +34,7 @@ export class ContentController {
       page: parseInt(page, 10),
       perPage: parseInt(perPage, 10),
       status,
+      visibility,
       search,
       sort,
       order: order as 'asc' | 'desc',
@@ -47,10 +49,19 @@ export class ContentController {
   @Post(':type')
   async create(
     @Param('type') type: string,
-    @Body() body: { data: Record<string, unknown> },
+    @Body()
+    body: {
+      data: Record<string, unknown>;
+      visibility?: 'PUBLIC' | 'RESTRICTED';
+    },
     @Request() req: { user: { id: string } }
   ) {
-    return this.contentService.create(type, body.data, req.user.id);
+    return this.contentService.create(
+      type,
+      body.data,
+      req.user.id,
+      body.visibility
+    );
   }
 
   @Put(':type/:id')
@@ -69,6 +80,15 @@ export class ContentController {
     @Body() body: { status: 'DRAFT' | 'PUBLISHED' | 'ARCHIVED' }
   ) {
     return this.contentService.updateStatus(type, id, body.status);
+  }
+
+  @Patch(':type/:id/visibility')
+  async updateVisibility(
+    @Param('type') type: string,
+    @Param('id') id: string,
+    @Body() body: { visibility: 'PUBLIC' | 'RESTRICTED' }
+  ) {
+    return this.contentService.updateVisibility(type, id, body.visibility);
   }
 
   @Delete(':type/:id')

@@ -1,10 +1,10 @@
 import { ContentTypeDefinition } from '@cms/shared/interfaces';
 
-export const postSchema: ContentTypeDefinition = {
-  name: 'post',
-  title: 'Post',
-  icon: 'article',
-  description: 'Blog posts and articles',
+export const portfolioSchema: ContentTypeDefinition = {
+  name: 'portfolio',
+  title: 'Portfólio',
+  icon: 'collections',
+  description: 'Projetos e trabalhos com conteúdo rico',
   defaultVisibility: 'PUBLIC',
   fields: [
     {
@@ -22,42 +22,42 @@ export const postSchema: ContentTypeDefinition = {
       required: true,
     },
     {
-      name: 'excerpt',
-      title: 'Resumo',
+      name: 'description',
+      title: 'Descrição',
       type: 'text',
-      options: { rows: 3, maxLength: 200 },
+      required: true,
+      options: { rows: 3, maxLength: 300 },
     },
     {
       name: 'body',
-      title: 'Conteúdo',
+      title: 'Conteúdo Completo',
       type: 'richtext',
-      required: true,
+      description: 'Texto detalhado do projeto com formatação rica',
     },
     {
       name: 'cover',
       title: 'Imagem de Capa',
       type: 'image',
+      required: true,
       options: { hotspot: true },
     },
     {
       name: 'gallery',
       title: 'Galeria de Imagens',
       type: 'gallery',
-      description: 'Galeria de fotos do post',
-      validation: { max: 20 },
+      description: 'Fotos e imagens do projeto',
+      validation: { max: 30 },
     },
     {
       name: 'video',
       title: 'Vídeo',
       type: 'video',
-      description: 'URL do vídeo (YouTube, Vimeo, ou arquivo)',
+      description: 'Vídeo do projeto (YouTube, Vimeo, ou upload)',
     },
     {
-      name: 'author',
-      title: 'Autor',
-      type: 'reference',
-      to: 'author',
-      required: true,
+      name: 'client',
+      title: 'Cliente',
+      type: 'string',
     },
     {
       name: 'category',
@@ -65,9 +65,11 @@ export const postSchema: ContentTypeDefinition = {
       type: 'select',
       options: {
         list: [
-          { title: 'Tecnologia', value: 'tech' },
-          { title: 'Design', value: 'design' },
-          { title: 'Negócios', value: 'business' },
+          { title: 'Web Design', value: 'web-design' },
+          { title: 'Branding', value: 'branding' },
+          { title: 'Fotografia', value: 'photography' },
+          { title: 'Vídeo', value: 'video' },
+          { title: 'Social Media', value: 'social-media' },
         ],
         layout: 'dropdown',
       },
@@ -79,19 +81,24 @@ export const postSchema: ContentTypeDefinition = {
       of: [{ name: 'tag', title: 'Tag', type: 'string' }],
     },
     {
+      name: 'projectUrl',
+      title: 'URL do Projeto',
+      type: 'url',
+    },
+    {
+      name: 'completedAt',
+      title: 'Data de Conclusão',
+      type: 'date',
+    },
+    {
       name: 'featured',
       title: 'Destaque',
       type: 'boolean',
     },
-    {
-      name: 'publishedAt',
-      title: 'Data de Publicação',
-      type: 'datetime',
-    },
   ],
   preview: {
     title: 'title',
-    subtitle: 'category',
+    subtitle: 'client',
     media: 'cover',
   },
 };

@@ -11,4 +11,5 @@ export interface ContentTypeDefinition {
     subtitle?: string;
     media?: string;
   };
+  defaultVisibility?: 'PUBLIC' | 'RESTRICTED';
 }
