@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://cms:cms_password@db:5432/cms_db
+      JWT_SECRET: ${JWT_SECRET:-cms-jwt-secret-change-in-production}
+      UPLOAD_DIR: /uploads
+      CORS_ORIGIN: http://localhost
+    volumes:
+      - uploads:/uploads
+    depends_on:
+      - db
+    restart: unless-stopped
+
+  studio:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./dist/apps/studio/browser:/usr/share/nginx/html
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - api
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: cms
+      POSTGRES_PASSWORD: cms_password
+      POSTGRES_DB: cms_db
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  uploads:
